@@ -1,0 +1,9 @@
+@import '_content/StoreProject1.Domain/StoreProject1.Domain.bundle.scp.css';
+
+/* _content/StoreProject1.DAL/Component1.razor.rz.scp.css */
+.my-component[b-fraep349g4] {
+    border: 2px dashed red;
+    padding: 1em;
+    margin: 1em 0;
+    background-image: url('background.png');
+}

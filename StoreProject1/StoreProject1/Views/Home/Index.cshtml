@@ -1,0 +1,189 @@
+﻿﻿@{
+    ViewData["Title"] = "Главная";
+}
+
+<div style="padding: 10px;"></div>
+@if (User.Identity.IsAuthenticated)
+{
+  <div class="card col-md-12">
+  <div class="card-body">
+    <h5 class="card-title text-center">Добро пожаловать на сайт StoreProject 1</h5>
+    <p class="card-text">
+      На этом сайте вы сможете выбрать подходящую для вас одежду, посмотреть ее, сравнить
+      с другими, а так же можете приобрести этот товар.
+    </p>
+    <p class="card-text"><small class="text-muted">KN</small></p>
+  </div>
+</div>
+
+<div style="padding: 10px;"></div>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+  @if (User.IsInRole("Admin"))
+  {
+    @*<div class="col">
+      <div class="card h-100">
+       <img src=~/img/models/Adidas.jpg class="card-img-top card-image"/>
+        <div class="card-body text-center">
+        <h5 class="card-title">Adidas</h5>
+        <p class="card-text">
+            Adidas AG — немецкая транснациональная компания по производству спортивной одежды, обуви и аксессуаров. 
+            </p>
+        </div>
+        <div class="card-footer text-center">
+          <a asp-controller="Cloth" asp-action="GetClothes" class="card-link">Список одежды</a>
+        </div>
+      </div>
+    </div> *@
+  }
+        <div class="col"> @*1m*@
+            <div class="card h-100">
+                <img src=~/img/models/Adidas.jpg class="card-img-top card-image" />
+                <div class="card-body text-center">
+                    <h5 class="card-title">Adidas</h5>
+                    <p class="card-text">
+                        Adidas AG — немецкая транснациональная компания по производству спортивной одежды, обуви и аксессуаров.
+                    </p>
+                </div>
+                <div class="card-footer text-center">
+                    <a asp-controller="Cloth" asp-action="GetClothes" class="card-link">Список одежды</a>
+                </div>
+            </div>
+        </div>
+        <div class="col"> @*2m*@
+    <div class="card h-100">
+      <img src=~/img/models/H&M.jpg class="card-img-top card-image"/>
+      <div class="card-body text-center">
+       <h5 class="card-title">H&M</h5>
+        <p class="card-text">
+        H&M — шведская компания, основанная в 1947 году Эрлингом Перссоном.
+        </p>
+      </div>
+      <div class="card-footer text-center">
+      <a asp-controller="Cloth" asp-action="GetClothes" class="card-link">Список одежды</a>
+      </div>
+    </div>
+  </div>
+  <div class="col"> @*3m*@
+    <div class="card h-100">
+      <img src=~/img/models/Zara.jpg class="card-img-top card-image"/>
+      <div class="card-body text-center">
+        <h5 class="card-title">ZARA</h5>
+       <p class="card-text"> Zara — ведущая торговая сеть группы компаний Inditex, принадлежит испанскому магнату Амансио Ортеге</p>
+      </div>
+      <div class="card-footer text-center">
+      <a asp-controller="Cloth" asp-action="GetClothes" class="card-link">Список одежды</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="padding: 10px;"></div>
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Интересные факты</h5>
+    <p class="card-text">
+    Во времена существования Древнего Египта, казалось бы, такой исконно женский предмет одежды, 
+    как юбка, успешно использовался в гардеробе мужчин. Причем именно они были первыми модниками, 
+    задавшими тренд на плиссировку.
+    </p>
+    <a href="#" class="card-link">Card link</a>
+    <a href="#" class="card-link">Another link</a>
+  </div>
+</div>
+
+<div style="padding: 10px;"></div>
+<div class="card">
+  <div class="card-body">
+  <h5 class="card-title">Самой наибольшей популярностью пользуются следующие бренды</h5>
+  </div>
+  <ul class="list-group list-group-flush" id="ulListId">
+    <li class="list-group-item">ZARA</li>
+    <li class="list-group-item">H&M</li>
+    <li class="list-group-item">Dior</li>
+    <li class="list-group-item">Gucci</li>
+    <li class="list-group-item">Adidas</li>
+    <li class="list-group-item">Nike</li>
+  </ul>
+  <div class="card-body">
+    <button class="btn btn-danger" id="btnHideId">Скрыть</button>
+    <button class="btn btn-primary" id="btnShowId">Показать</button>
+  </div>
+</div>
+}
+else
+{
+  <div class="card">
+    <div class="card-header">
+      Вы не авторизовались
+    </div>
+    <div class="card-body">
+      <blockquote class="blockquote mb-0">
+        <p>Для просмотра контента вы должны авторизоваться</p>
+      </blockquote>
+    </div>
+  </div>
+  
+  <div style="padding: 10px;"></div>
+  
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="col"> @*2*@
+      <div class="card h-100">
+        <img src="~/img/product/sweater.jpg" class="card-img-top" alt="Mustang">
+        <div class="card-body">
+          <h5 class="card-title text-center">Недоступно</h5>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">Кофта H&M</small>
+        </div>
+      </div>
+    </div>
+        <div class="col">
+            @*3*@
+            <div class="card h-100">
+                <img src="~/img/product/sweater.jpg" class="card-img-top" alt="Mustang">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Недоступно</h5>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Кофта H&M</small>
+                </div>
+            </div>
+        </div>
+    <div class="col"> @*4*@
+      <div class="card h-100">
+        <img src="~/img/product/tshirt.jpg" class="card-img-top" alt="BMW">
+        <div class="card-body">
+          <h5 class="card-title text-center">Недоступно</h5>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">Футболка Value</small>
+        </div>
+      </div>
+    </div>
+        <div class="col">@*5*@
+            <div class="card h-100">
+                <img src="~/img/product/tshirt.jpg" class="card-img-top" alt="BMW">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Недоступно</h5>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Футболка Value</small>
+                </div>
+            </div>
+        </div>
+  </div> // товары
+}
+
+@section pageScripts
+{
+    <script>
+    
+    $('#btnHideId').click(function(){
+      $('#ulListId').hide(2000);
+    });
+    
+    $('#btnShowId').click(function () {
+      $('#ulListId').show(2000);
+    });
+  </script>
+}

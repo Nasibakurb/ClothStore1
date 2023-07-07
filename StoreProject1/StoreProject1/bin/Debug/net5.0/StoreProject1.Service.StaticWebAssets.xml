@@ -1,0 +1,7 @@
+﻿<StaticWebAssets Version="1.0">
+  <ContentRoot BasePath="/" Path="C:\Users\Professional\source\repos\StoreProject1\StoreProject1.Service\obj\Debug\net5.0\scopedcss\bundle\" />
+  <ContentRoot BasePath="_content/StoreProject1.DAL" Path="C:\Users\Professional\source\repos\StoreProject1\StoreProject1.DAL\obj\Debug\net5.0\scopedcss\projectbundle\" />
+  <ContentRoot BasePath="_content/StoreProject1.DAL" Path="C:\Users\Professional\source\repos\StoreProject1\StoreProject1.DAL\wwwroot\" />
+  <ContentRoot BasePath="_content/StoreProject1.Domain" Path="C:\Users\Professional\source\repos\StoreProject1\StoreProject1.Domain\obj\Debug\net5.0\scopedcss\projectbundle\" />
+  <ContentRoot BasePath="_content/StoreProject1.Domain" Path="C:\Users\Professional\source\repos\StoreProject1\StoreProject1.Domain\wwwroot\" />
+</StaticWebAssets>

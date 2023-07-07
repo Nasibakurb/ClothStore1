@@ -1,0 +1,184 @@
+﻿﻿<div class="row">
+    <div class="col">
+        <select class="form-control" id="firstClothId"></select>
+    </div>
+    <div class="col">
+        <select class="form-control" id="secondClothId"></select>
+    </div>
+</div>
+
+<div style="padding: 10px;"></div>
+
+<div class="row">
+
+    <div class="col-md-6">
+        <div class="card-body">
+            <h5 class="card-title" id="firstCardTitleId"></h5>
+            <p class="card-text" id="firstCardDescId"></p>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item" id="firstCardSizeId"></li>
+            <li class="list-group-item" id="firstCardPriceId"></li>
+            <li class="list-group-item" id="firstCardModelId"></li>
+            <li class="list-group-item" id="firstCardDateCreateId"></li>
+        </ul>
+    </div>
+
+    <div class="col-md-6">
+       <div class="card-body">
+           <h5 class="card-title" id="secondCardTitleId"></h5>
+           <p class="card-text" id="secondCardDescId"></p>
+       </div>
+       <ul class="list-group list-group-flush">
+           <li class="list-group-item" id="secondCardSizeId"></li>
+           <li class="list-group-item" id="secondCardPriceId"></li>
+           <li class="list-group-item" id="secondCardModelId"></li>
+           <li class="list-group-item" id="secondCardDateCreateId"></li>
+       </ul> 
+    </div>
+</div>
+
+<div style="padding: 10px;"></div>
+
+<div class="text-white bg-secondary" id="warningCardId">
+    <div class="bg-secondary card-header text-white">
+        Предупреждение
+    </div>
+    <div class="card-body">
+        <blockquote class="blockquote mb-0">
+            <p id="warningId"></p>
+        </blockquote>
+    </div>
+</div>
+
+<div style="padding: 10px;"></div>
+
+<div id="resultCardId">
+  <div class="bg-secondary card-header text-white">
+    Результат
+  </div>
+  <div class="card-body">
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item" id="resultSizeId"></li>
+        <li class="list-group-item" id="resultPriceId"></li>
+    </ul>
+  </div>
+</div>
+
+<script src="~/lib/select2/js/select2.full.min.js"></script>
+<script> 
+$(document).ready(function () {
+    
+    $('#firstCardId').hide();
+    $('#secondCardId').hide();
+    $('#warningCardId').hide();
+    $('#resultCardId').hide();
+    
+    let firstCloth = null; 
+    let secondCloth = null;        
+    
+    $('#firstClothId, #secondClothId').select2({
+       placeholder: "Выберите одежду",
+       minimumInputLength: 2,
+       allowClear: true,
+       ajax: {
+            type: "POST",
+            url: "@Url.Action("GetCloth", "Cloth")",
+            dataType: "json",
+            data: function (params) { 
+                var query = {
+                    term: params.term,
+                    page: params.page || 1,
+                    pageSize: params.pageSize || 5
+                };
+                return query;
+            },
+            processResults: function (result) {
+                return {
+                    results: $.map(result, function (val, index) {
+                        return {
+                            id: index, 
+                            text: val
+                        };
+                    }),
+                };
+            }
+        }
+    });      
+
+    function fillData(val, cardId){
+            if (cardId === 'firstClothId') {
+            $('#firstCardId').show();
+            $('#firstCardTitleId')[0].innerText = 'Название: ' + val.name;
+            $('#firstCardDescId')[0].innerText = 'Описание: ' + val.description;
+            $('#firstCardSizeId')[0].innerText = 'Размер: ' + val.size;
+            $('#firstCardPriceId')[0].innerText = 'Стоимость: ' + val.price + ' тг';
+            $('#firstCardModelId')[0].innerText = 'Модель: ' + val.model;
+            $('#firstCardDateCreateId')[0].innerText = 'Дата создания: ' + val.dateCreate;
+        } else {
+            $('#secondCardId').show();
+            $('#secondCardTitleId')[0].innerText = 'Название: ' + val.name;
+            $('#secondCardDescId')[0].innerText = 'Описание: ' + val.description;
+            $('#secondCardSizeId')[0].innerText = 'Размер: ' + val.price;
+            $('#secondCardPriceId')[0].innerText = 'Стоимость: ' + val.price + ' тг';
+            $('#secondCardModelId')[0].innerText = 'Модель: ' + val.model;
+            $('#secondCardDateCreateId')[0].innerText = 'Дата создания: ' + val.dateCreate;
+        }
+        compareClothes();
+    }
+
+    
+    $("#secondClothId").on("change", function(){
+        const id = this.value;
+        if (id === "") return;
+        $.get("/Cloth/GetCloth", { id : id, isJson : true }, function(data) {
+            secondCloth = data;
+            fillData(secondCloth, "secondClothId");
+        });
+    });
+    
+    $("#firstClothId").on("change", function(){
+        const id = this.value;
+        if (id === "") return;
+        $.get("/Cloth/GetCloth", { id : id, isJson : true }, function(data) {
+            firstCloth = data;
+            fillData(firstCloth, "firstClothId");
+        });            
+    });
+    
+    function compareClothes(){
+        if (firstCloth === null) {
+            $('#warningId')[0].innerText = 'Вы не выбрали первый товар';
+            $('#warningCardId').show();
+            return;
+        }
+        
+        if (secondCloth === null) {
+            $('#warningId')[0].innerText = 'Вы не выбрали второй товар';
+            $('#warningCardId').show();
+            return;
+        }    
+        
+        var size = $('#resultSizeId')[0];
+        if (firstCloth.size > secondCloth.size) {
+            size.innerText = 'Размер ' + firstCloth.name + ' больше, чем у ' + secondCloth.name;
+        } else if (firstCloth.size === secondCloth.size) {
+            size.innerText = 'Размер ' + secondCloth.name + ' и ' + firstCloth.name + ' равны';
+        } else {
+            size.innerText = 'Размер ' + secondCloth.name + ' больше, чем у ' + firstCloth.name;
+        }
+        
+        var price = $('#resultPriceId')[0];
+            if (firstCloth.price > secondCloth.price) {
+                price.innerText = 'Стоимость ' + firstCloth.name + ' выше, чем у ' + secondCloth.name;
+            } else if (firstCloth.price === secondCloth.price) {
+                price.innerText = 'Стоимость ' + firstCloth.name + ' и ' + secondCloth.name + ' равны';
+        } else {
+                price.innerText = 'Стоимость ' + firstCloth.name + ' выше, чем у ' + secondCloth.name;
+        }
+
+        $('#resultCardId').show();
+        $('#warningCardId').hide();
+    }
+  });
+</script>
